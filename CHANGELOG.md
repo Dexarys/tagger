@@ -1,3 +1,6 @@
+## v0.3.5 - 2025-05-13
+- fix: wrong scope
+
 ## v0.3.4 - 2025-05-13
 - fix: wrong export files
 
