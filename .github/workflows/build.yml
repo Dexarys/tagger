@@ -19,8 +19,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build icons
-        run: npm run build:icons
+      - name: Build tagger
+        run: npm run build
 
       - name: Extract version
         id: extract-version
@@ -43,9 +43,9 @@ jobs:
       - name: Download package artifact
         uses: actions/download-artifact@v4
         with:
-          name: remanx-icon-package
+          name: tagger
           path: .
-          
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
