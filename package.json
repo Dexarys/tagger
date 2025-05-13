@@ -7,5 +7,12 @@
   },
   "scripts": {
     "release": "node ./bin/tagger.js"
+  },
+  "files": [
+    "tagger.js",
+    "README.md"
+  ],
+  "exports": {
+    "./tagger.js": "./tagger.js"
   }
 }

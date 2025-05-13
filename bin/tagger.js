@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /// tagger - simple CLI tool to bump version & generate changelog
 
 import { execSync } from 'child_process';
@@ -40,7 +42,7 @@ const commits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n');
 
 const bump = detectBump(commits);
 if (bump !== 'none') {
-  const nextVersion = bumpVersion(pkg.version, bump);
+  const nextVersion = bumpVersion(pkg.version ?? '0.0.0', bump);
 
   console.log(`\n> Releasing: ${nextVersion} (${bump})\n`);
 
