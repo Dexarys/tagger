@@ -7,19 +7,19 @@
     "access": "public"
   },
   "bin": {
-    "tagger": "bin/tagger.js"
+    "tagger": "tagger.js"
   },
   "scripts": {
     "release": "node ./bin/tagger.js",
     "build": "node ./build/build.js"
   },
   "files": [
-    "bin/tagger.js",
+    "tagger.js",
     "README.md",
     "package.json"
   ],
   "exports": {
-    "./tagger.js": "./bin/tagger.js"
+    "./tagger.js": "./tagger.js"
   },
   "devDependencies": {
     "chalk": "^5.4.1"
