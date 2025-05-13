@@ -1,3 +1,6 @@
+## v0.3.2 - 2025-05-13
+- fix: wrong path to executable
+
 ## v0.3.1 - 2025-05-13
 - fix: missing return value
 - fix: change npm repository
