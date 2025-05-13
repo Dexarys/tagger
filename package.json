@@ -1,0 +1,11 @@
+{
+  "name": "tagger",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "tagger": "./bin/tagger.js"
+  },
+  "scripts": {
+    "release": "node ./bin/tagger.js"
+  }
+}
