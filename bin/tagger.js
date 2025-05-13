@@ -3,7 +3,6 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { exit } from 'process';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -12,8 +11,8 @@ function run(cmd) {
   try {
     return execSync(cmd, { encoding: 'utf-8' }).trim();
   } catch (err) {
-    console.error(`Error : ${err}`);
-    exit(1);
+    // No tag
+    return '';
   }
 }
 
@@ -36,7 +35,8 @@ const changelogPath = path.join(__dirname, '../CHANGELOG.md');
 
 const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
 const lastTag = run('git describe --tags --abbrev=0');
-const commits = run(`git log ${lastTag}..HEAD --pretty=format:"%s"`).split('\n');
+const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
+const commits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n');
 
 const bump = detectBump(commits);
 if (bump !== 'none') {
