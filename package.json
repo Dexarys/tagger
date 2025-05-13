@@ -10,7 +10,8 @@
   },
   "files": [
     "tagger.js",
-    "README.md"
+    "README.md",
+    "package.json"
   ],
   "exports": {
     "./tagger.js": "./tagger.js"
