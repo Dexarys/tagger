@@ -14,12 +14,12 @@
     "build": "node ./build/build.js"
   },
   "files": [
-    "tagger.js",
+    "bin/tagger.js",
     "README.md",
     "package.json"
   ],
   "exports": {
-    "./tagger.js": "./tagger.js"
+    "./tagger.js": "./bin/tagger.js"
   },
   "devDependencies": {
     "chalk": "^5.4.1"
