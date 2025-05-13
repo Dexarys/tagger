@@ -1,5 +1,5 @@
 {
-  "name": "tagger",
+  "name": "@dexarys/tagger",
   "version": "0.3.4",
   "type": "module",
   "publishConfig": {
@@ -23,5 +23,6 @@
   },
   "devDependencies": {
     "chalk": "^5.4.1"
-  }
+  },
+  "license": "GPL-3.0-only"
 }
