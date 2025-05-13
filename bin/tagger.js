@@ -29,7 +29,7 @@ function bumpVersion(current, bump) {
   const [major, minor, patch] = current.split('.').map(Number);
   if (bump === 'major') return `${major + 1}.0.0`;
   if (bump === 'minor') return `${major}.${minor + 1}.0`;
-  if (bump === 'patch') `${major}.${minor}.${patch + 1}`;
+  if (bump === 'patch') return `${major}.${minor}.${patch + 1}`;
 }
 
 const packagePath = path.join(__dirname, '../package.json');
