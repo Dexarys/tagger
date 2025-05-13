@@ -2,6 +2,10 @@
   "name": "tagger",
   "version": "0.3.0",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
   "bin": {
     "tagger": "./bin/tagger.js"
   },
