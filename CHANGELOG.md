@@ -1,3 +1,6 @@
+## v0.3.4 - 2025-05-13
+- fix: wrong export files
+
 ## v0.3.3 - 2025-05-13
 - fix: added files
 
