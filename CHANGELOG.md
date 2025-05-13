@@ -1,3 +1,6 @@
+## v0.3.3 - 2025-05-13
+- fix: added files
+
 ## v0.3.2 - 2025-05-13
 - fix: wrong path to executable
 
