@@ -1,3 +1,12 @@
+## v0.5.0 - 2025-05-14
+
+### ✨ Features
+- upgrade changelog's design
+
+### 🔧 CI/CD
+- add gh release
+- update trigger
+
 ## v0.4.0 - 2025-05-14
 - feat: use tagger in an another project
 
