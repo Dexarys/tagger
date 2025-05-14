@@ -1,3 +1,8 @@
+## v0.5.1 - 2025-05-14
+
+### 🐛 Fixes
+- add permissions
+
 ## v0.5.0 - 2025-05-14
 
 ### ✨ Features
