@@ -1,14 +1,15 @@
 import chalk from 'chalk';
-import fs from 'fs';
+import fs from 'fs/promises';
 
 async function copyFiles() {
-    await fs.copyFile('./package.json', './dist/package.json', () => {});
-    await fs.copyFile('./README.md', './dist/README.md', () => {});
-    await fs.copyFile('./bin/tagger.js', './dist/tagger.js', () => {});
+    await fs.copyFile('./package.json', './dist/package.json');
+    await fs.copyFile('./README.md', './dist/README.md');
+    await fs.copyFile('./bin/tagger.js', './dist/bin/tagger.js');
 }
 
-fs.mkdir('./dist', () => {});
+await fs.mkdir('./dist', {recursive: true});
+await fs.mkdir('./dist/bin', {recursive: true});
 
-chalk.white('\n Copy files');
+console.log(chalk.white('\n Copy files'));
 await copyFiles();
-chalk.green('\n Task completed!');
+console.log(chalk.green('\n Task completed!'));
