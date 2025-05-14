@@ -8,13 +8,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = process.cwd();
 
 function run(cmd) {
   try {
     return execSync(cmd, { encoding: 'utf-8' }).trim();
   } catch (err) {
-    // No tag
-    return '';
+    return ''; 
   }
 }
 
@@ -32,8 +32,8 @@ function bumpVersion(current, bump) {
   if (bump === 'patch') return `${major}.${minor}.${patch + 1}`;
 }
 
-const packagePath = path.join(__dirname, '../package.json');
-const changelogPath = path.join(__dirname, '../CHANGELOG.md');
+const packagePath = path.join(projectRoot, 'package.json');
+const changelogPath = path.join(projectRoot, 'CHANGELOG.md');
 
 const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
 const lastTag = run('git describe --tags --abbrev=0');
