@@ -1,3 +1,6 @@
+## v0.4.0 - 2025-05-14
+- feat: use tagger in an another project
+
 ## v0.3.6 - 2025-05-14
 - fix: imrpove builder
 
