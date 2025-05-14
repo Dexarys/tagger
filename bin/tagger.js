@@ -5,9 +5,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = process.cwd();
 
 function run(cmd) {
@@ -32,15 +30,48 @@ function bumpVersion(current, bump) {
   if (bump === 'patch') return `${major}.${minor}.${patch + 1}`;
 }
 
+function categorizeCommits(commits) {
+  const types = {
+    feat: [],
+    fix: [],
+    docs: [],
+    refactor: [],
+    chore: [],
+    style: [],
+    test: [],
+    perf: [],
+    build: [],
+    ci: [],
+    revert: [],
+    other: []
+  };
+
+  for (const message of commits) {
+    const match = message.match(/^(\w+)(\(.+\))?:\s(.+)/);
+    if (match) {
+      const [_, type, , description] = match;
+      if (types[type]) {
+        types[type].push(`- ${description}`);
+      } else {
+        types.other.push(`- ${message}`);
+      }
+    } else {
+      types.other.push(`- ${message}`);
+    }
+  }
+
+  return types;
+}
+
 const packagePath = path.join(projectRoot, 'package.json');
 const changelogPath = path.join(projectRoot, 'CHANGELOG.md');
 
 const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
 const lastTag = run('git describe --tags --abbrev=0');
 const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
-const commits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n');
+const rawCommits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n').filter(Boolean);
 
-const bump = detectBump(commits);
+const bump = detectBump(rawCommits);
 if (bump !== 'none') {
   const nextVersion = bumpVersion(pkg.version ?? '0.0.0', bump);
 
@@ -49,8 +80,32 @@ if (bump !== 'none') {
   pkg.version = nextVersion;
   fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2));
 
-  const changelogEntry = `## v${nextVersion} - ${new Date().toISOString().slice(0, 10)}\n` +
-    commits.map(m => `- ${m}`).join('\n') + '\n\n';
+  const categorized = categorizeCommits(rawCommits);
+
+  let changelogEntry = `## v${nextVersion} - ${new Date().toISOString().slice(0, 10)}\n`;
+
+  const sectionLabels = {
+    feat: '✨ Features',
+    fix: '🐛 Fixes',
+    docs: '📝 Documentation',
+    refactor: '♻️ Refactors',
+    perf: '⚡ Performance',
+    style: '🎨 Code Style',
+    test: '✅ Tests',
+    build: '🏗️ Build',
+    ci: '🔧 CI/CD',
+    chore: '🧹 Chores',
+    revert: '⏪ Reverts',
+    other: '📦 Others'
+  };
+
+  for (const [type, messages] of Object.entries(categorized)) {
+    if (messages.length > 0) {
+      changelogEntry += `\n### ${sectionLabels[type]}\n${messages.join('\n')}\n`;
+    }
+  }
+
+  changelogEntry += '\n';
 
   const previousLog = fs.existsSync(changelogPath) ? fs.readFileSync(changelogPath, 'utf-8') : '';
   fs.writeFileSync(changelogPath, changelogEntry + previousLog);
