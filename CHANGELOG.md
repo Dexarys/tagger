@@ -1,3 +1,6 @@
+## v0.3.6 - 2025-05-14
+- fix: imrpove builder
+
 ## v0.3.5 - 2025-05-13
 - fix: wrong scope
 
