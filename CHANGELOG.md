@@ -3,9 +3,6 @@
 ### ✨ Features
 - upgrade changelog's design
 
-### 🧹 Chores
-- v0.5.0
-
 ### 🔧 CI/CD
 - add gh release
 - update trigger
