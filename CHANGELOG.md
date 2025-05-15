@@ -1,3 +1,8 @@
+## v0.5.2 - 2025-05-15
+
+### 🐛 Fixes
+- add permissions for ci
+
 ## v0.5.1 - 2025-05-14
 
 ### 🐛 Fixes
