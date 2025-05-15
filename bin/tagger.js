@@ -2,6 +2,7 @@
 
 /// tagger - simple CLI tool to bump version & generate changelog
 
+import chalk from 'chalk';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
@@ -75,7 +76,7 @@ const bump = detectBump(rawCommits);
 if (bump !== 'none') {
   const nextVersion = bumpVersion(pkg.version ?? '0.0.0', bump);
 
-  console.log(`\n> Releasing: ${nextVersion} (${bump})\n`);
+  console.log(chalk.yellow(`\n> Releasing: ${nextVersion} (${bump})\n`));
 
   pkg.version = nextVersion;
   fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2));
@@ -114,7 +115,7 @@ if (bump !== 'none') {
   run(`git commit -m "chore(release): v${nextVersion}"`);
   run(`git tag v${nextVersion}`);
 
-  console.log(`\n✅ Release tagged as v${nextVersion}\nPush with: git push && git push --tags\n`);
+  console.log(chalk.green(`\n✅ Release tagged as v${nextVersion}\nPush with: git push && git push --tags\n`));
 } else {
-  console.log(`\n Nothing to release yet.`);
+  console.log(chalk.cyan(`\n Nothing to release yet.`));
 }

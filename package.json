@@ -21,7 +21,7 @@
   "exports": {
     ".": "./bin/tagger.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "chalk": "^5.4.1"
   },
   "license": "GPL-3.0-only"
