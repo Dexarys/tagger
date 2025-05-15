@@ -21,6 +21,8 @@ function detectBump(commits) {
   if (commits.some(m => /BREAKING CHANGE|!:/.test(m))) return 'major';
   if (commits.some(m => /^feat(\(.+\))?:/.test(m))) return 'minor';
   if (commits.some(m => /^fix(\(.+\))?:/.test(m))) return 'patch';
+  if (commits.some(m => /^revert(\(.+\))?:/.test(m))) return 'patch';
+  if (commits.some(m => /^perf(\(.+\))?:/.test(m))) return 'patch';
   return 'none';
 }
 
