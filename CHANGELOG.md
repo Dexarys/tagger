@@ -1,3 +1,8 @@
+## v1.1.0 - 2025-05-15
+
+### ✨ Features
+- add revert and perf in patch version
+
 ## v1.0.1 - 2025-05-15
 
 ### 🐛 Fixes
