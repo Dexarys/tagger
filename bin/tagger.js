@@ -8,11 +8,23 @@ import fs from 'fs';
 import path from 'path';
 
 const projectRoot = process.cwd();
-const IGNORED_DIRS = ['node_modules', 'dist', '.git'];
+const IGNORED_DEFAULT = ['node_modules', 'dist', '.git'];
+const IGNORED_PATHS = new Set(
+  fs.existsSync('.taggerignore')
+    ? fs.readFileSync('.taggerignore', 'utf-8')
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => !!line && !line.startsWith('#'))
+    : IGNORED_DEFAULT
+);
 
 const args = process.argv.slice(2);
 const pathArg = args.find(arg => arg.startsWith('--multi='));
 const useMulti = pathArg ? pathArg.split('=')[1] : true;
+
+function isIgnored(relativePath) {
+  return [...IGNORED_PATHS].some(ignored => relativePath.startsWith(ignored));
+}
 
 function run(cmd) {
   try {
@@ -76,7 +88,7 @@ function findPackages(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
-    if (IGNORED_DIRS.includes(entry.name)) continue;
+    if (isIgnored(relativePath)) continue;
 
     const fullPath = path.join(dir, entry.name);
 
