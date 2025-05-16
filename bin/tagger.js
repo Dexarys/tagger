@@ -141,7 +141,11 @@ if (bump !== 'none') {
   const previousLog = fs.existsSync(changelogPath) ? fs.readFileSync(changelogPath, 'utf-8') : '';
   fs.writeFileSync(changelogPath, changelogEntry + previousLog);
 
-  run('git add package.json CHANGELOG.md');
+  const filesToAdd = [...packages, 'CHANGELOG.md']
+  .map(p => `"${p}"`)
+  .join(' ');
+
+  run(`git add ${filesToAdd}`);
   run(`git commit -m "chore(release): v${nextVersion}"`);
   run(`git tag v${nextVersion}`);
 
