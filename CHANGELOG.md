@@ -1,3 +1,11 @@
+## v2.1.0 - 2025-05-16
+
+### ✨ Features
+- use .taggerignore to ignore directory
+
+### 🐛 Fixes
+- use path
+
 ## v2.0.1 - 2025-05-16
 
 ### 🐛 Fixes
