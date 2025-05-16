@@ -90,8 +90,8 @@ function findPackages(dir) {
   return results;
 }
 
-const packagePath = path.join(projectRoot, 'package.json');
-const packages = useMulti ? findPackages(projectRoot) : packagePath;
+const packageRoot = path.join(projectRoot, 'package.json');
+const packages = useMulti ? findPackages(projectRoot) : packageRoot;
 const changelogPath = path.join(projectRoot, 'CHANGELOG.md');
 
 const lastTag = run('git describe --tags --abbrev=0');
@@ -100,7 +100,8 @@ const rawCommits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n'
 
 const bump = detectBump(rawCommits);
 if (bump !== 'none') {
-  const nextVersion = bumpVersion(pkg.version ?? '0.0.0', bump);
+  const pkgRoot = JSON.parse(fs.readFileSync(packageRoot, 'utf-8'));
+  const nextVersion = bumpVersion(pkgRoot.version ?? '0.0.0', bump);
   
   console.log(chalk.yellow(`\n> Releasing: ${nextVersion} (${bump})\n`));
   
