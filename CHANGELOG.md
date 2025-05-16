@@ -1,3 +1,11 @@
+## v2.0.0 - 2025-05-16
+
+### 🐛 Fixes
+- use packageRoot for the version
+
+### 📦 Others
+- feat!: use multi package.json
+
 ## v1.1.0 - 2025-05-15
 
 ### ✨ Features
