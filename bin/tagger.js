@@ -8,6 +8,11 @@ import fs from 'fs';
 import path from 'path';
 
 const projectRoot = process.cwd();
+const IGNORED_DIRS = ['node_modules', 'dist', '.git'];
+
+const args = process.argv.slice(2);
+const pathArg = args.find(arg => arg.startsWith('--multi='));
+const useMulti = pathArg ? pathArg.split('=')[1] : true;
 
 function run(cmd) {
   try {
@@ -66,10 +71,29 @@ function categorizeCommits(commits) {
   return types;
 }
 
+function findPackages(dir) {
+  const results = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (IGNORED_DIRS.includes(entry.name)) continue;
+
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      results.push(...findPackages(fullPath));
+    } else if (entry.isFile() && entry.name === 'package.json') {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+}
+
 const packagePath = path.join(projectRoot, 'package.json');
+const packages = useMulti ? findPackages(projectRoot) : packagePath;
 const changelogPath = path.join(projectRoot, 'CHANGELOG.md');
 
-const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
 const lastTag = run('git describe --tags --abbrev=0');
 const commitRange = lastTag ? `${lastTag}..HEAD` : 'HEAD';
 const rawCommits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n').filter(Boolean);
@@ -77,11 +101,14 @@ const rawCommits = run(`git log ${commitRange} --pretty=format:"%s"`).split('\n'
 const bump = detectBump(rawCommits);
 if (bump !== 'none') {
   const nextVersion = bumpVersion(pkg.version ?? '0.0.0', bump);
-
+  
   console.log(chalk.yellow(`\n> Releasing: ${nextVersion} (${bump})\n`));
-
-  pkg.version = nextVersion;
-  fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2));
+  
+  packages.forEach(packagePath => {
+    const pkg = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
+    pkg.version = nextVersion;
+    fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2));
+  });
 
   const categorized = categorizeCommits(rawCommits);
 
