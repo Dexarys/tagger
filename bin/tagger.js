@@ -83,17 +83,18 @@ function categorizeCommits(commits) {
   return types;
 }
 
-function findPackages(dir) {
-  const results = [];
+function findPackages(dir, baseDir = dir) {
+  let results = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    const relativePath = path.relative(baseDir, fullPath);
+
     if (isIgnored(relativePath)) continue;
 
-    const fullPath = path.join(dir, entry.name);
-
     if (entry.isDirectory()) {
-      results.push(...findPackages(fullPath));
+      results = results.concat(findPackages(fullPath, baseDir));
     } else if (entry.isFile() && entry.name === 'package.json') {
       results.push(fullPath);
     }
