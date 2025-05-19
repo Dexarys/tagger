@@ -57,6 +57,35 @@ If commit messages follow the Conventional Commits convention, tagger will:
 
 5. Create a Git tag for the new version
 
+## 🔍 Managing Multiple package.json Files
+By default, Tagger will recursively search and update all package.json files in your project.
+
+If your project includes multiple packages (e.g., a monorepo), this behavior helps ensure version consistency across all packages.
+
+### Disable Multi-Package Behavior
+If you want Tagger to only update the root package.json, you can disable this behavior by passing:
+
+``` bash
+--multi=false
+```
+This prevents scanning subdirectories for other package.json files.
+
+### Ignoring Specific Paths
+To fine-tune which directories are scanned, you can create a .taggerignore file at the root of your project.
+
+Each line should contain a relative path to exclude from scanning (similar to .gitignore):
+
+``` bash
+node_modules
+dist
+apps/legacy-app
+tools/some-script-folder
+```
+
+> 📝 Paths are relative to the repository root. Empty lines and comments (starting with #) are ignored.
+
+This gives you full control over which package.json files are updated while keeping your monorepo clean and efficient.
+
 ## 📄 Example Output
 
 ``` bash
