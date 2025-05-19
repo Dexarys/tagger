@@ -9,8 +9,10 @@ This tool analyzes Git commits since the last tag, determines the appropriate se
 - Conventional Commit detection (`feat:`, `fix:`, `BREAKING CHANGE`, etc.)
 - Automatically bumps semantic version
 - Generates clean, structured changelogs grouped by type
-- Commits `package.json` and `CHANGELOG.md`, creates a new Git tag
+- Commits `package.json`* and `CHANGELOG.md`, creates a new Git tag
 - Lightweight and framework agnostic
+
+*: Multiple package.json files can be updated
 
 ## 📦 Installation
 
